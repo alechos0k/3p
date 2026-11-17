@@ -1,0 +1,86 @@
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <title>Generador de multiplicaciones</title>
+
+    <style>
+        body {
+            background-color: #dceef2;
+            font-family: Arial;
+            margin: 0;
+            padding: 30px;
+        }
+
+        table {
+            background-color: white;
+            border: 2px solid #287271;
+            border-radius: 10px;
+            padding: 20px;
+            width: 350px;
+            text-align: center;
+        }
+
+        h3 {
+            color: #287271;
+        }
+
+        button {
+            background-color: #287271;
+            color: white;
+            border: none;
+            padding: 9px 20px;
+            cursor: pointer;
+        }
+
+        #tabla {
+            margin-top: 10px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <center>
+        <table>
+            <tr>
+                <td>
+                    <h3>GENERADOR DE TABLAS</h3>
+
+                    <p>Elige el número que deseas multiplicar:</p>
+
+                    <input type="range" id="numero"
+                    min="1" max="10" value="1"
+                    oninput="mostrarTabla()">
+
+                    <p id="vn">1</p>
+
+                    <button onclick="reiniciarTabla()">REINICIAR</button>
+                </td>
+            </tr>
+
+            <tr>
+                <td>
+                    <h3>TABLA DE RESULTADOS</h3>
+
+                    <div id="tabla">
+                        1 x 1 = 1
+                    </div>
+                </td>
+            </tr>
+        </table>
+        
+    </center>
+    <a href="index.html" class="btn btn-light form-control">
+    <i class="bi bi-arrow-left-circle"></i> REGRESAR AL MENÚ
+</a>
+    
+
+    <script src="js/tablas.js"></script>
+    
+
+</body>
+</html>
