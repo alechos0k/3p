@@ -5,35 +5,99 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="css/bootstrap.min.css">
-    <title>CALCULADORA IMC</title>
+    <title>Mi calculadora IMC</title>
+
+    <style>
+        body {
+            background-color: #171526;
+            color: #F4F1FA;
+        }
+
+        .principal {
+            background-color: #292442;
+            color: #F4F1FA;
+            padding: 35px;
+        }
+
+        h1 {
+            color: #B9A7F5;
+            font-weight: bold;
+        }
+
+        h5 {
+            color: #E0D9FA;
+        }
+
+        input[type="range"] {
+            accent-color: #A48BEA;
+            cursor: pointer;
+        }
+
+        .resultado {
+            color: #B9A7F5;
+        }
+
+        .btn-reset {
+            background-color: #8067D8;
+            color: white;
+            border: none;
+            padding: 12px;
+            border-radius: 8px;
+        }
+
+        .btn-reset:hover {
+            background-color: #6C54C4;
+            color: white;
+        }
+
+        .tabla-imc th {
+            background-color: #8067D8;
+            color: white;
+        }
+
+        .tabla-imc td {
+            color: #171526;
+            font-weight: bold;
+        }
+
+        .volver {
+            background-color: #B9A7F5;
+            color: #171526;
+            border: none;
+            padding: 12px;
+        }
+    </style>
 </head>
 
 <body class="h-100 m-0 p-0">
 
-    <div class="container-fluid min-vh-100 p-4 card border-0 rounded-0 d-flex justify-content-center"
-         style="background-color: #287271; color: white;">
+    <div class="container-fluid min-vh-100 d-flex flex-column justify-content-center principal">
 
-        <h1 class="text-center">CALCULADORA DE ÍNDICE CORPORAL</h1>
-        <hr style="border-color: white;">
+        <h1 class="text-center">CALCULADORA IMC</h1>
+        <p class="text-center">Calcula tu índice de masa corporal</p>
+        <hr style="border-color: #B9A7F5;">
 
         <div class="row align-items-center">
 
             <div class="col-6">
 
                 <h5>PESO (kg): <span id="vp">20</span></h5>
-                <input type="range" class="form-control" id="peso"
-                       min="20" max="200" value="20">
+
+                <input type="range" class="form-control"
+                       id="peso" min="20" max="200" value="20">
+
                 <br>
 
                 <h5>ESTATURA (cm): <span id="ve">100</span></h5>
-                <input type="range" class="form-control" id="estatura"
-                       min="100" max="220" value="100">
 
-                <h2 class="text-center mt-5 mb-4">
+                <input type="range" class="form-control"
+                       id="estatura" min="100" max="220" value="100">
+
+                <h2 class="text-center mt-5 mb-4 resultado">
                     RESULTADO: <span id="imc">0</span>
                 </h2>
 
-                <button id="reset" class="btn btn-info form-control">
+                <button id="reset" class="btn-reset form-control">
                     REINICIAR
                 </button>
 
@@ -41,97 +105,64 @@
 
             <div class="col-6">
 
-                <table class="table table-bordered text-center text-white"
-                       style="background-color: transparent; margin: 0;">
+                <h5 class="text-center mb-3">CLASIFICACIÓN IMC</h5>
+
+                <table class="table table-bordered text-center tabla-imc">
 
                     <thead>
                         <tr>
-                            <th style="background-color: #b2dfdb; color: black;">
-                                Categoría
-                            </th>
-                            <th style="background-color: #b2dfdb; color: black;">
-                                Valor IMC
-                            </th>
+                            <th>Categoría</th>
+                            <th>Valor IMC</th>
                         </tr>
                     </thead>
 
                     <tbody>
                         <tr>
-                            <td style="background-color: #64b5f6; font-weight: bold;">
-                                BAJO PESO
-                            </td>
-                            <td style="background-color: #64b5f6; font-weight: bold;">
-                                Menor a 18.5
-                            </td>
+                            <td style="background-color: #9CC9ED;">BAJO PESO</td>
+                            <td style="background-color: #9CC9ED;">Menor a 18.5</td>
                         </tr>
 
                         <tr>
-                            <td style="background-color: #81c784; font-weight: bold;">
-                                NORMAL
-                            </td>
-                            <td style="background-color: #81c784; font-weight: bold;">
-                                18.5 a 24.9
-                            </td>
+                            <td style="background-color: #A5D6A7;">NORMAL</td>
+                            <td style="background-color: #A5D6A7;">18.5 a 24.9</td>
                         </tr>
 
                         <tr>
-                            <td style="background-color: #ffd54f; font-weight: bold;">
-                                SOBREPESO
-                            </td>
-                            <td style="background-color: #ffd54f; font-weight: bold;">
-                                25 a 29.9
-                            </td>
+                            <td style="background-color: #FFE082;">SOBREPESO</td>
+                            <td style="background-color: #FFE082;">25 a 29.9</td>
                         </tr>
 
                         <tr>
-                            <td style="background-color: #ffb74d; font-weight: bold;">
-                                OBESIDAD I
-                            </td>
-                            <td style="background-color: #ffb74d; font-weight: bold;">
-                                30 a 34.9
-                            </td>
+                            <td style="background-color: #FFCC80;">OBESIDAD I</td>
+                            <td style="background-color: #FFCC80;">30 a 34.9</td>
                         </tr>
 
                         <tr>
-                            <td style="background-color: #e57373; font-weight: bold;">
-                                OBESIDAD II
-                            </td>
-                            <td style="background-color: #e57373; font-weight: bold;">
-                                35 a 39.9
-                            </td>
+                            <td style="background-color: #EF9A9A;">OBESIDAD II</td>
+                            <td style="background-color: #EF9A9A;">35 a 39.9</td>
                         </tr>
 
                         <tr>
-                            <td style="background-color: #c62828; font-weight: bold;">
-                                OBESIDAD III
-                            </td>
-                            <td style="background-color: #c62828; font-weight: bold;">
-                                40 o más
-                            </td>
+                            <td style="background-color: #E57373;">OBESIDAD III</td>
+                            <td style="background-color: #E57373;">40 o más</td>
                         </tr>
                     </tbody>
 
                 </table>
-                
 
             </div>
-            
-            
+
         </div>
-        
-        
+
     </div>
-<a href="index.html" class="btn btn-light form-control">
-    <i class="bi bi-arrow-left-circle"></i> REGRESAR AL MENÚ
-</a>
 
-
-    
+    <a href="index.html" class="btn volver form-control">
+        REGRESAR AL MENÚ
+    </a>
 
     <script src="js/bootstrap.bundle.min.js"></script>
     <script src="js/sweetalert2.all.min.js"></script>
     <script src="js/imc.js"></script>
-    
 
 </body>
 </html>

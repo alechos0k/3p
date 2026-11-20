@@ -1,13 +1,58 @@
-
 <!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
     <link rel="stylesheet" href="css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.2/font/bootstrap-icons.min.css">
-    <title>PRACTICAS JAVASCRIPT</title>
+    <!-- DataTables -->
+    <link rel="stylesheet" href="https://cdn.datatables.net/2.1.8/css/dataTables.dataTables.min.css">
+    <link rel="stylesheet" href="https://cdn.datatables.net/buttons/3.2.0/css/buttons.dataTables.min.css">
+
+    <title>MINI MARKET</title>
+
+    <style>
+        .imagen-producto {
+            width: 65px;
+            height: 65px;
+            object-fit: cover;
+            border-radius: 8px;
+        }
+
+        .vista-previa {
+            width: 120px;
+            height: 120px;
+            object-fit: cover;
+            border-radius: 10px;
+            margin-top: 10px;
+        }
+
+        dialog {
+            width: 420px;
+            max-width: 95%;
+        }
+
+        dialog::backdrop {
+            background: rgba(0, 0, 0, 0.6);
+        }
+
+        /* Estilos visibles para botones y controles de DataTables */
+        .dt-buttons .dt-button {
+            background: #f8f9fa !important;
+            border: 1px solid #adb5bd !important;
+            border-radius: 6px !important;
+            color: #212529 !important;
+            padding: 5px 12px !important;
+            font-size: 0.9rem !important;
+        }
+
+        .dt-buttons .dt-button:hover {
+            background: #e9ecef !important;
+        }
+    </style>
 </head>
+
 <body>
 
     <nav class="navbar bg-dark">
@@ -19,32 +64,101 @@
         </div>
     </nav>
 
-    <div class="container p-4 bg-light mt-5 card shadow">
-        <h1 class="text-center text-primary">
-            <i class="bi bi-basket2-fill"></i> MI TIENDITA
-        </h1>
-        <hr>
-
-        <button class="btn btn-primary w-25"
-        onclick="document.getElementById('addProducto').showModal()">
-            <i class="bi bi-plus-circle"></i> Agregar
+    <div class="pt-3 px-3">
+        <button type="button" class="btn btn-dark" id="btnMenu" aria-label="Menú">
+            <i class="bi bi-list"></i> Menú
         </button>
+    </div>
 
-        <table class="table table-striped table-hover mt-3 w-100">
-            <thead class="table-dark">
-                <tr class="text-center">
-                    <th>PRODUCTO</th>
-                    <th>PRECIO</th>
-                    <th>ACCIONES</th>
-                </tr>
-            </thead>
-            <tbody id="productos">
-            </tbody>
-        </table>
+    <div class="d-flex">
+        <!-- MENÚ LATERAL -->
+        <aside class="flex-shrink-0 p-3 border-end bg-light min-vh-100" id="sidebar" style="width: 220px;">
+            <nav class="nav nav-pills flex-column gap-1">
+                <a href="#" class="nav-link active" id="menuProductos" onclick="mostrarSeccion('seccionProductos', 'menuProductos'); return false;">
+                    <i class="bi bi-box-seam"></i> Productos
+                </a>
+                <a href="#" class="nav-link" id="menuCategorias" onclick="mostrarSeccion('seccionCategorias', 'menuCategorias'); return false;">
+                    <i class="bi bi-tags"></i> Categorías
+                </a>
+            </nav>
+        </aside>
+
+        <!-- CONTENIDO PRINCIPAL -->
+        <main class="flex-grow-1 p-3">
+
+            <!-- SECCIÓN PRODUCTOS -->
+            <div class="container p-4 bg-light mt-2 card shadow" id="seccionProductos">
+
+                <h1 class="text-center text-primary">
+                    <i class="bi bi-basket2-fill"></i> MI TIENDITA
+                </h1>
+
+                <hr>
+
+                <div class="d-flex flex-wrap justify-content-between align-items-center gap-2 mb-3">
+                    <div class="d-flex align-items-center gap-2">
+                        <label for="filtroCategoria" class="fw-bold mb-0">FILTRAR POR CATEGORÍA:</label>
+                        <select id="filtroCategoria" class="form-select w-auto"></select>
+                    </div>
+
+                    <button type="button" class="btn btn-primary" onclick="abrirModalAgregarProducto()">
+                        <i class="bi bi-plus-circle"></i> Agregar
+                    </button>
+                </div>
+
+                <div class="table-responsive">
+                    <table id="tablaProductos" class="table table-striped table-hover mt-3 w-100">
+                        <thead class="table-dark">
+                            <tr class="text-center">
+                                <th>IMAGEN</th>
+                                <th>PRODUCTO</th>
+                                <th>CATEGORÍA</th>
+                                <th>PRECIO</th>
+                                <th>STOCK</th>
+                                <th>ACCIONES</th>
+                            </tr>
+                        </thead>
+                        <tbody id="productos"></tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- SECCIÓN CATEGORÍAS -->
+            <div class="container p-4 bg-light mt-2 card shadow" id="seccionCategorias" style="display: none;">
+
+                <h1 class="text-center text-primary">
+                    <i class="bi bi-tags-fill"></i> CATEGORÍAS
+                </h1>
+
+                <hr>
+
+                <div class="d-flex justify-content-end mb-3">
+                    <button type="button" class="btn btn-primary" onclick="document.getElementById('addCategoria').showModal()">
+                        <i class="bi bi-plus-circle"></i> Agregar
+                    </button>
+                </div>
+
+                <div class="table-responsive">
+                    <table id="tablaCategorias" class="table table-striped table-hover mt-3 w-100">
+                        <thead class="table-dark">
+                            <tr class="text-center">
+                                <th>IMAGEN</th>
+                                <th>CATEGORÍA</th>
+                                <th>ACCIONES</th>
+                            </tr>
+                        </thead>
+                        <tbody id="categorias"></tbody>
+                    </table>
+                </div>
+            </div>
+
+        </main>
     </div>
 
 
+    <!-- MODAL AGREGAR PRODUCTO -->
     <dialog class="p-0 border-0 rounded shadow" id="addProducto">
+
         <div class="bg-primary text-white p-3 d-flex justify-content-between align-items-center">
             <h4 class="mb-0">
                 <i class="bi bi-box-seam"></i> AGREGAR PRODUCTO
@@ -56,10 +170,25 @@
 
         <div class="p-4">
             <h5>NOMBRE</h5>
-            <input type="text" id="nombre" class="form-control" placeholder="Nombre del producto"><br>
+            <input type="text" id="nombre" class="form-control" placeholder="Nombre del producto">
+            <br>
+
+            <h5>CATEGORÍA</h5>
+            <select id="categoria" class="form-select"></select>
+            <br>
 
             <h5>PRECIO</h5>
-            <input type="number" id="precio" class="form-control" placeholder="Precio"><br>
+            <input type="number" id="precio" class="form-control" placeholder="Precio" min="0" step="0.01">
+            <br>
+
+            <h5>STOCK</h5>
+            <input type="number" id="stock" class="form-control" placeholder="Cantidad disponible" min="0">
+            <br>
+
+            <h5>SELECCIONAR IMAGEN</h5>
+            <input type="file" id="imagen" class="form-control" accept="image/*">
+
+            <img id="vistaImagen" class="vista-previa" style="display: none;">
         </div>
 
         <div class="bg-light p-3 d-flex justify-content-end gap-2">
@@ -72,10 +201,13 @@
                 <i class="bi bi-cloud-arrow-up"></i> Guardar
             </button>
         </div>
+
     </dialog>
 
 
+    <!-- MODAL EDITAR PRODUCTO -->
     <dialog class="p-0 border-0 rounded shadow" id="editarProducto">
+
         <div class="bg-primary text-white p-3 d-flex justify-content-between align-items-center">
             <h4 class="mb-0">
                 <i class="bi bi-pencil-square"></i> EDITAR PRODUCTO
@@ -87,15 +219,30 @@
 
         <div class="p-4">
             <h5>NOMBRE</h5>
-            <input type="text" id="nombree" class="form-control"><br>
+            <input type="text" id="nombree" class="form-control">
+            <br>
+
+            <h5>CATEGORÍA</h5>
+            <select id="categoriae" class="form-select"></select>
+            <br>
 
             <h5>PRECIO</h5>
-            <input type="number" id="precioe" class="form-control"><br>
+            <input type="number" id="precioe" class="form-control" min="0" step="0.01">
+            <br>
+
+            <h5>STOCK</h5>
+            <input type="number" id="stocke" class="form-control" min="0">
+            <br>
+
+            <h5>CAMBIAR IMAGEN</h5>
+            <input type="file" id="imagene" class="form-control" accept="image/*">
+
+            <img id="vistaEditar" class="vista-previa" style="display: none;">
+
+            <input type="hidden" id="posicion">
         </div>
 
         <div class="bg-light p-3 d-flex justify-content-end gap-2">
-            <input type="hidden" name="posicion" id="posicion">
-
             <button type="button" class="btn btn-danger"
             onclick="document.getElementById('editarProducto').close()">
                 <i class="bi bi-x-circle"></i> Cancelar
@@ -105,11 +252,98 @@
                 <i class="bi bi-arrow-repeat"></i> Actualizar
             </button>
         </div>
+
+    </dialog>
+
+
+    <!-- MODAL AGREGAR CATEGORÍA -->
+    <dialog class="p-0 border-0 rounded shadow" id="addCategoria">
+
+        <div class="bg-primary text-white p-3 d-flex justify-content-between align-items-center">
+            <h4 class="mb-0">
+                <i class="bi bi-tags"></i> AGREGAR CATEGORÍA
+            </h4>
+            <button type="button" class="btn-close btn-close-white"
+            onclick="document.getElementById('addCategoria').close()">
+            </button>
+        </div>
+
+        <div class="p-4">
+            <h5>NOMBRE</h5>
+            <input type="text" id="nombreCat" class="form-control" placeholder="Nombre de la categoría">
+            <br>
+
+            <h5>SELECCIONAR IMAGEN</h5>
+            <input type="file" id="imagenCat" class="form-control" accept="image/*">
+
+            <img id="vistaImagenCat" class="vista-previa" style="display: none;">
+        </div>
+
+        <div class="bg-light p-3 d-flex justify-content-end gap-2">
+            <button type="button" class="btn btn-danger"
+            onclick="document.getElementById('addCategoria').close()">
+                <i class="bi bi-x-circle"></i> Cancelar
+            </button>
+
+            <button type="button" class="btn btn-success" id="btnSaveCat">
+                <i class="bi bi-cloud-arrow-up"></i> Guardar
+            </button>
+        </div>
+
+    </dialog>
+
+
+    <!-- MODAL EDITAR CATEGORÍA -->
+    <dialog class="p-0 border-0 rounded shadow" id="editarCategoria">
+
+        <div class="bg-primary text-white p-3 d-flex justify-content-between align-items-center">
+            <h4 class="mb-0">
+                <i class="bi bi-pencil-square"></i> EDITAR CATEGORÍA
+            </h4>
+            <button type="button" class="btn-close btn-close-white"
+            onclick="document.getElementById('editarCategoria').close()">
+            </button>
+        </div>
+
+        <div class="p-4">
+            <h5>NOMBRE</h5>
+            <input type="text" id="nombreCate" class="form-control">
+            <br>
+
+            <h5>CAMBIAR IMAGEN</h5>
+            <input type="file" id="imagenCate" class="form-control" accept="image/*">
+
+            <img id="vistaEditarCat" class="vista-previa" style="display: none;">
+
+            <input type="hidden" id="posicionCat">
+        </div>
+
+        <div class="bg-light p-3 d-flex justify-content-end gap-2">
+            <button type="button" class="btn btn-danger"
+            onclick="document.getElementById('editarCategoria').close()">
+                <i class="bi bi-x-circle"></i> Cancelar
+            </button>
+
+            <button type="button" class="btn btn-success" id="btnUpdateCat">
+                <i class="bi bi-arrow-repeat"></i> Actualizar
+            </button>
+        </div>
+
     </dialog>
 
 
     <script src="js/bootstrap.bundle.min.js"></script>
     <script src="js/sweetalert2.all.min.js"></script>
+
+    <!-- DataTables y exportación Excel / PDF -->
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/pdfmake.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/vfs_fonts.js"></script>
+    <script src="https://cdn.datatables.net/2.1.8/js/dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/3.2.0/js/dataTables.buttons.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/3.2.0/js/buttons.html5.min.js"></script>
+
     <script src="js/tiendita.js"></script>
 
 </body>

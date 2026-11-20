@@ -37,7 +37,7 @@ const actualizarIMC = () => {
     } else if (resultado < 40) {
         categoriaActual = 4;
     } else {
-        categoriaActual = 5;
+        categoriaActual = 5; 
     }
 
     setTimeout(() => {
